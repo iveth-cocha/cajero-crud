@@ -19,6 +19,7 @@ public class Muestra {
     private JTable visor;
     private JButton eliminarUsuarioButton;
     private JButton actualizarInformacionButton;
+    private JButton buscarButton;
     static final String DB_URL="jdbc:mysql://localhost/Principal";
     static final String USER="root";
     static final String PASS="poo123";
@@ -75,6 +76,13 @@ public class Muestra {
                 suelx = salario.getText().trim();
                 fingrx = fIngreso.getText().trim();
                 Actualizar(idx, nomx, apex, rolx, contrax, suelx, fingrx);
+            }
+        });
+        buscarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idx = id.getText();
+                BuscarPorId(idx);
             }
         });
     }
@@ -180,4 +188,41 @@ public class Muestra {
         }
 
     }
+
+    public void BuscarPorId(String idU) {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("idUsuario");
+        model.addColumn("nombre");
+        model.addColumn("Apellido");
+        model.addColumn("Rol");
+        model.addColumn("Contraseña");
+        model.addColumn("Salario");
+        model.addColumn("FechaIngreso");
+        visor.setModel(model);
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Usuario WHERE idUsuario = ?")) {
+            pstmt.setInt(1, Integer.parseInt(idU));
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String[] informacion = new String[7];
+                informacion[0] = rs.getString(1);
+                informacion[1] = rs.getString(2);
+                informacion[2] = rs.getString(3);
+                informacion[3] = rs.getString(4);
+                informacion[4] = rs.getString(5);
+                informacion[5] = rs.getString(6);
+                informacion[6] = rs.getString(7);
+                model.addRow(informacion);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró un registro con ese ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
+
