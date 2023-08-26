@@ -3,7 +3,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import javax.swing.JScrollPane;
 
 
 public class Muestra {
@@ -18,6 +17,8 @@ public class Muestra {
     private JTextField fIngreso;
     private JButton listadoDeCajerosButton;
     private JTable visor;
+    private JButton eliminarUsuarioButton;
+    private JButton actualizarInformacionButton;
     static final String DB_URL="jdbc:mysql://localhost/Principal";
     static final String USER="root";
     static final String PASS="poo123";
@@ -44,15 +45,6 @@ public class Muestra {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               /* idx= String.valueOf(Integer.parseInt(id.getText()));
-                nomx=nombre.getText().trim();
-                apex=apellido.getText().trim();
-                rolx=rol.getText().trim();
-                contrax=contra.getText().trim();
-                suelx= String.valueOf(Float.parseFloat(salario.getText())).trim();
-                fingrx=fIngreso.getText().trim();
-                Ingresar(idx, nomx, apex, rolx, contrax, suelx,fingrx );*/
-
                 idx = id.getText();
                 nomx = nombre.getText().trim();
                 apex = apellido.getText().trim();
@@ -60,9 +52,29 @@ public class Muestra {
                 contrax = contra.getText().trim();
                 suelx = salario.getText().trim();
                 fingrx = fIngreso.getText().trim();
+
                 Ingresar(idx, nomx, apex, rolx, contrax, suelx, fingrx);
 
-
+            }
+        });
+        eliminarUsuarioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idx = id.getText();
+                Eliminar(idx);
+            }
+        });
+        actualizarInformacionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idx = id.getText();
+                nomx = nombre.getText().trim();
+                apex = apellido.getText().trim();
+                rolx = rol.getText().trim();
+                contrax = contra.getText().trim();
+                suelx = salario.getText().trim();
+                fingrx = fIngreso.getText().trim();
+                Actualizar(idx, nomx, apex, rolx, contrax, suelx, fingrx);
             }
         });
     }
@@ -132,5 +144,40 @@ public class Muestra {
             e.printStackTrace();
         }
     }
+    public void Eliminar( String idU){
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Usuario WHERE idUsuario = ?")) {
+            pstmt.setInt(1, Integer.parseInt(idU));
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró un registro con ese ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void Actualizar(String idU, String nom, String ape, String trol, String cont, String suel, String ingre){
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE Usuario SET nombre = ?, apellido = ?, tipoUsuario = ?, contraseña = ?, salario = ?, fechaContratacion = ? WHERE idUsuario = ?")) {
+            pstmt.setString(1, nom);
+            pstmt.setString(2, ape);
+            pstmt.setString(3, trol);
+            pstmt.setString(4, cont);
+            pstmt.setDouble(5, Double.parseDouble(suel));
+            pstmt.setString(6, ingre);
+            pstmt.setInt(7, Integer.parseInt(idU));
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Registro actualizado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró un registro con ese ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

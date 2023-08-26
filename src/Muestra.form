@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Muestra">
-  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="6" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="585" height="400"/>
@@ -10,7 +10,7 @@
     <children>
       <component id="114c2" class="javax.swing.JButton" binding="ingresarInformacionButton" default-binding="true">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="ingresar informacion"/>
@@ -80,14 +80,6 @@
           <text value="sueldo"/>
         </properties>
       </component>
-      <component id="4d191" class="javax.swing.JButton" binding="listadoDeCajerosButton" default-binding="true">
-        <constraints>
-          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Listado de cajeros"/>
-        </properties>
-      </component>
       <component id="86092" class="javax.swing.JTextField" binding="id">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -140,17 +132,43 @@
       </component>
       <scrollpane id="bc0c3">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="none" title=""/>
         <children>
           <component id="56ebc" class="javax.swing.JTable" binding="visor">
             <constraints/>
-            <properties/>
+            <properties>
+              <intercellSpacing width="2" height="2"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
+      <component id="4d191" class="javax.swing.JButton" binding="listadoDeCajerosButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Listado de cajeros"/>
+        </properties>
+      </component>
+      <component id="fdbb8" class="javax.swing.JButton" binding="eliminarUsuarioButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Eliminar Usuario"/>
+        </properties>
+      </component>
+      <component id="193d8" class="javax.swing.JButton" binding="actualizarInformacionButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Actualizar Informacion"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
