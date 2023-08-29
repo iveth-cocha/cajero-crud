@@ -3,6 +3,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+//librerias de pdf
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.io.FileOutputStream;
 
 
 public class Muestra {
@@ -20,6 +24,7 @@ public class Muestra {
     private JButton eliminarUsuarioButton;
     private JButton actualizarInformacionButton;
     private JButton buscarButton;
+    private JButton imprimirButton;
     static final String DB_URL="jdbc:mysql://localhost/Principal";
     static final String USER="root";
     static final String PASS="poo123";
@@ -55,6 +60,7 @@ public class Muestra {
                 fingrx = fIngreso.getText().trim();
 
                 Ingresar(idx, nomx, apex, rolx, contrax, suelx, fingrx);
+                Mostrar();
 
             }
         });
@@ -63,6 +69,7 @@ public class Muestra {
             public void actionPerformed(ActionEvent e) {
                 idx = id.getText();
                 Eliminar(idx);
+                Mostrar();
             }
         });
         actualizarInformacionButton.addActionListener(new ActionListener() {
@@ -76,6 +83,7 @@ public class Muestra {
                 suelx = salario.getText().trim();
                 fingrx = fIngreso.getText().trim();
                 Actualizar(idx, nomx, apex, rolx, contrax, suelx, fingrx);
+                Mostrar();
             }
         });
         buscarButton.addActionListener(new ActionListener() {
@@ -83,6 +91,12 @@ public class Muestra {
             public void actionPerformed(ActionEvent e) {
                 idx = id.getText();
                 BuscarPorId(idx);
+            }
+        });
+        imprimirButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Imprimir();
             }
         });
     }
@@ -221,6 +235,54 @@ public class Muestra {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void Imprimir(){
+
+            // Crear el documento PDF
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream("LISTA2.pdf"));
+                document.open();
+
+                // Agregar los valores de los campos JTextField al PDF
+                document.add(new Paragraph("Valores de los campos JTextField:"));
+                document.add(new Paragraph("Nombre: " + nombre.getText()));
+                document.add(new Paragraph("Apellido: " + apellido.getText()));
+                document.add(new Paragraph("Rol: " + rol.getText()));
+                document.add(new Paragraph("Salario: " + salario.getText()));
+                document.add(new Paragraph("ID: " + id.getText()));
+                document.add(new Paragraph("Contraseña: " + contra.getText()));
+                document.add(new Paragraph("Fecha de Ingreso: " + fIngreso.getText()));
+                document.add(new Paragraph(""));
+
+                // Crear una tabla en el documento PDF
+                PdfPTable pdfTable = new PdfPTable(7); // 7 columnas, igual al número de columnas en tu tabla
+
+                // Agregar encabezados de columna a la tabla PDF
+                for (int i = 0; i < visor.getColumnCount(); i++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(visor.getColumnName(i)));
+                    pdfTable.addCell(cell);
+                }
+
+                // Agregar datos de la tabla al PDF
+                for (int rows = 0; rows < visor.getRowCount(); rows++) {
+                    for (int cols = 0; cols < visor.getColumnCount(); cols++) {
+                        pdfTable.addCell(visor.getValueAt(rows, cols).toString());
+                    }
+                }
+
+                // Agregar la tabla al documento PDF
+                document.add(pdfTable);
+
+                document.close();
+                JOptionPane.showMessageDialog(null, "PDF GENERADO");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
     }
 
 
